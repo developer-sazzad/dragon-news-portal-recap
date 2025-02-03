@@ -28,7 +28,7 @@ const SingleNews = ({ news }) => {
                 <img src={news.image_url} alt="" />
                 <p>{news.details.slice(0, 300)}</p>
                 <div className="*:text-yellow-500 font-semibold">
-                    <Link>Read More</Link>
+                    <Link to={`/news/${news._id}`}>Read More</Link>
                 </div>
             </div>
             <hr />
