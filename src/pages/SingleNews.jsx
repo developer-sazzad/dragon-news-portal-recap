@@ -3,7 +3,7 @@ import { CiBookmark, CiShare2 } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
 const SingleNews = ({ news }) => {
-    console.log(news)
+    // console.log(news)
     return (
         <div className="border-gray-200 border-2 rounded-md mb-5">
             <div className="bg-gray-200 flex justify-between items-center px-5 py-3">
