@@ -8,18 +8,22 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState([]);
-    console.log(user);
+    const [loading, setLoading] = useState(true);
+    console.log(user, loading);
 
     
     const createNewUser = (email, password) => {
+        setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
     const loginUser = (email, password) => {
+        setLoading(true);
         return signInWithEmailAndPassword(auth, email, password)
     }
 
     const logOut = () => {
+        setLoading(true);
         signOut(auth)
         .then(() => {
             alert('Logout Success');
@@ -35,11 +39,13 @@ const AuthProvider = ({ children }) => {
         setUser,
         createNewUser,
         loginUser,
+        loading,
         logOut
     }
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
+            setLoading(false);
         })
         return unSubscribe;
     }, [])

@@ -1,29 +1,33 @@
-import { useContext} from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Register = () => {
-    const {setUser, createNewUser} = useContext(AuthContext);
+    const { setUser, createNewUser } = useContext(AuthContext);
+    const [error, setError] = useState({});
+
     const handleRegister = e => {
         e.preventDefault();
         const form = new FormData(e.target);
         const name = form.get('name');
+        if (name.length < 5) {
+            setError({ ...error, name: 'you must be enter 5 charecter' });
+            return;
+        }
         const photo = form.get('photo');
         const email = form.get('email');
         const password = form.get('password');
-        console.log({name, photo, email, password})
+        console.log({ name, photo, email, password })
 
 
         createNewUser(email, password)
-        .then(result => {
-            const user = result.user;
-            setUser(user)
-        })
-        .catch(error => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-        })
+            .then(result => {
+                const user = result.user;
+                setUser(user)
+            })
+            .catch(err => {
+                setError({ ...error, errorMassage: err.message })
+            })
     }
     return (
         <div className="flex justify-center items-center py-8">
@@ -35,6 +39,11 @@ const Register = () => {
                             <span className="label-text">Your Name</span>
                         </label>
                         <input name="name" type="text" placeholder="name" className="input input-bordered" required />
+                        {
+                            error?.name && <label className="label text-sm text-red-600">
+                                {error.name}
+                            </label>
+                        }
                     </div>
                     <div className="form-control">
                         <label className="label">
