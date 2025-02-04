@@ -4,8 +4,6 @@ import { AuthContext } from "../provider/AuthProvider";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
-
-    console.log(user)
     return (
         <div className="container mx-auto">
             <div className="navbar">
