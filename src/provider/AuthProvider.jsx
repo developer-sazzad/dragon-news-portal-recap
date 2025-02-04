@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import auth from '../firebase/firebase.config'
+
 
 export const AuthContext = createContext(null);
 
@@ -11,7 +12,7 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     console.log(user, loading);
 
-    
+
     const createNewUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -22,22 +23,26 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    const updatedUserProfile = (updatedData) => {
+        return updateProfile(auth.currentUser, updatedData)
+    }
+
     const logOut = () => {
         setLoading(true);
         signOut(auth)
-        .then(() => {
-            alert('Logout Success');
-        })
-        .catch(() => {
-            alert('Somethings Error in Logout.')
-        })
+            .then(() => {
+                alert('Logout Success');
+            })
+            .catch(() => {
+                alert('Somethings Error in Logout.')
+            })
     }
 
     const authInfo = {
-        name: 'Sazzad HOssain',
         user,
         setUser,
         createNewUser,
+        updatedUserProfile,
         loginUser,
         loading,
         logOut

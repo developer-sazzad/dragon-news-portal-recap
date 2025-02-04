@@ -3,14 +3,20 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Navbar = () => {
-    const { name, user, logOut } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
 
     console.log(user)
     return (
-        <div>
+        <div className="container mx-auto">
             <div className="navbar">
                 <div className="navbar-start">
-                    <a className="btn btn-ghost text-xl">{name}</a>
+                    {
+                        user && user?.email ? <Link to='/' className="text-xl font-semibold">
+                            <div><p className="text-md font-light">welcome</p>
+                                {user?.displayName}
+                            </div></Link> : <Link to='/' className="text-xl font-semibold">Dragon</Link>
+                    }
+
                 </div>
                 <div className="navbar-center space-x-5 text-lg font-semibold">
                     <NavLink to='/'>Home</NavLink>
@@ -22,9 +28,14 @@ const Navbar = () => {
                         user && user?.email ? <div className="dropdown dropdown-end">
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">
-                                    <img
-                                        alt="Tailwind CSS Navbar component"
-                                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                    {
+                                        user && user?.photoURL ? <img
+                                            alt="User Profile"
+                                            src={user.photoURL} /> : <img
+                                            alt="User Logo"
+                                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                    }
+
                                 </div>
                             </div>
                             <ul
